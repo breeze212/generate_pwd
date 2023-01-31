@@ -1,58 +1,43 @@
 from random import *
 
 
-def is_valid(num):
-    return num.isdigit()
+digits = '0123456789'
+lowercase_letters = 'abcdefghijklmnopqrstuvwxyz'
+uppercase_letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+punctuation = '!#$%&*+-=?@^_'
+count_pwd = int(input('Введите количество создаваемых паролей: '))
+count = 0
+chars = ''
+
+dig_on = input('Включать ли цифры 0123456789? (y/n) ').lower()
+if dig_on in ['да', 'д', 'l', 'lf', 'y', 'yes']:
+    chars += digits
+abc_upper = input('Включать ли прописные буквы ABCDEFGHIJKLMNOPQRSTUVWXYZ? (y/n) ')
+if abc_upper in ['да', 'д', 'l', 'lf', 'y', 'yes']:
+    chars += lowercase_letters
+abc_lower = input('Включать ли строчные буквы abcdefghijklmnopqrstuvwxyz? (y/n) ')
+if abc_lower in ['да', 'д', 'l', 'lf', 'y', 'yes']:
+    chars += uppercase_letters
+ch_on = input('Включать ли символы !#$%&*+-=?@^_? (y/n) ')
+if ch_on in ['да', 'д', 'l', 'lf', 'y', 'yes']:
+    chars += punctuation
+exc_on = input('Исключать ли неоднозначные символы il1Lo0O? (y/n) ')
+if exc_on in ['да', 'д', 'l', 'lf', 'y', 'yes']:
+    for i in ('il1Lo0O'):
+        if i in chars:
+            chars = chars.replace(i, '')
+
+def generate_pwd():
+    pwd = ''
+    len_pwd = int(input('Укажите длину пароля: '))
+    for i in range(len_pwd):
+        pwd += choice(chars)
+    return pwd
 
 
-def random_generation(random_right):
-    return randint(1, random_right)
+def create_pwd_count():
+    for i in range(count_pwd):
+        print(generate_pwd())
 
 
-def request_input(n):
-    while True:
-        if is_valid(n):
-            my_number = int(n)
-            return my_number
-
-
-def comparison_number():
-    print('Введите правую границу для числа')
-    random_right = int(input())
-    random_number = random_generation(random_right)
-    print(random_number)
-    counter = 0
-    while True:
-        print(f'Введите число от 1 до {random_right}')
-        number = input()
-        my_number = request_input(number)
-        counter += 1
-        if my_number < 1 or my_number > random_right:
-            print(f'Число должно быть от 1 до {random_right}')
-            continue
-        if my_number > random_number:
-            print('Твоё число больше')
-        elif my_number < random_number:
-            print('Твоё число меньше')
-        else:
-            return print('Ты победил'), print('Количество попыток:', counter)
-
-
-def game_guessing_number():
-    print('Хочешь сыграть в числовую угадайку?')
-    wanted_game = input().lower()
-    if wanted_game in (['yes', 'да', 'д', 'l']):
-        comparison_number()
-        while True:
-            print('Сыграем ещё раз?')
-            play_again = input().lower()
-            if play_again in (['yes', 'да', 'д', 'l']):
-                comparison_number()
-            else:
-                return print('Приходи ещё :(')
-    else:
-        return print('Пока :(')
-
-
-game_guessing_number()
-print('Commit')
+create_pwd_count()
